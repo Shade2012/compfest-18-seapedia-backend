@@ -1,4 +1,18 @@
-# Installation & Setup
+# 🌐 Hosted Backend
+
+The backend is already deployed and available at:
+
+```text
+https://seapedia.zeabur.app
+```
+
+If you only want to use the application, **no local backend setup is required**.
+
+The instructions below are only for developers who want to run the backend locally.
+
+---
+
+# 💻 Local Installation & Setup
 
 ## 1. Clone the Repository
 
@@ -25,13 +39,13 @@ Copy the example environment file:
 cp .env_example.local .env
 ```
 
-Update the values in `.env` to match your local PostgreSQL configuration.
+Then update the values in `.env` to match your local PostgreSQL configuration.
 
 ---
 
 ## 4. Create the Database
 
-Create a PostgreSQL database with the name specified in your `.env`.
+Create a PostgreSQL database using the name specified in your `.env` file.
 
 Example:
 
@@ -41,15 +55,15 @@ compfest_18_db
 
 ---
 
-## 5. Database Setup
+## 5. Set Up the Database
 
-Generate the migration (if needed):
+If you have modified the TypeORM entities and need a new migration, generate one:
 
 ```bash
 npm run migration:generate
 ```
 
-Run the migration:
+Run the migrations:
 
 ```bash
 npm run migration:run
@@ -63,7 +77,7 @@ npm run seed
 
 ---
 
-## 6. Start the Application
+## 6. Start the Backend
 
 ```bash
 npm run start:dev
@@ -77,9 +91,7 @@ http://localhost:3000
 
 ---
 
-# Project Workflow
-
-Whenever you clone the project on a new machine:
+# 🚀 Local Development Workflow
 
 ```text
 Clone Repository
@@ -88,7 +100,7 @@ Clone Repository
 npm install
         │
         ▼
-Copy .env.example → .env
+Copy .env_example.local → .env
         │
         ▼
 Configure PostgreSQL
@@ -97,7 +109,7 @@ Configure PostgreSQL
 Create Database
         │
         ▼
-npm run migration:generate (only if required)
+(Optional) npm run migration:generate
         │
         ▼
 npm run migration:run
@@ -109,4 +121,12 @@ npm run seed
 npm run start:dev
 ```
 
-> **Note:** In most cases, `npm run migration:generate` is only needed when you've modified your TypeORM entities and want to create a new migration. If you're simply setting up the project from an existing repository, you can skip this step and run `npm run migration:run` directly.
+> **Note**
+>
+> `npm run migration:generate` is **only required** when you've modified the TypeORM entities and need to create a new migration.
+>
+> If you're simply setting up the project from the repository, you can skip this step and run:
+>
+> ```bash
+> npm run migration:run
+> ```
