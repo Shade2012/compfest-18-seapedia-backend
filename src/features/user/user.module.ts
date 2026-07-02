@@ -8,7 +8,7 @@ import { BuyerModule } from '../buyer/buyer.module';
 import { SellerModule } from '../seller/seller.module';
 import { DriverModule } from '../driver/driver.module';
 import { AdminModule } from '../admin/admin.module';
-import { SupabaseService } from 'src/supabase/supabase.service';
+// import { SupabaseService } from 'src/supabase/supabase.service';
 
 
 @Module({
@@ -23,6 +23,8 @@ import { SupabaseService } from 'src/supabase/supabase.service';
     DriverModule,
     AdminModule
   ],
-  providers: [UserService,SupabaseService],
+  providers: [UserService,
+    // SupabaseService
+  ],
 })
 export class UserModule {}

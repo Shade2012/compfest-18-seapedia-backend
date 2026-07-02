@@ -34,7 +34,6 @@ export class OrderSchedulerService {
   async processOverdueOrders() {
     const system = await this.systemRepository.findOneBy({id:1})
     const businessDate = new Date(system!.current_date)
-    const orders = await this.orderRepository.find();
 
     const overdueOrders = await this.orderRepository
       .createQueryBuilder('order')

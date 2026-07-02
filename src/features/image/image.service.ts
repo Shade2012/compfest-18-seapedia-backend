@@ -6,13 +6,13 @@ import { randomUUID } from "crypto"
 import { File } from "./constant"
 import { DirType } from "src/common/utils"
 import sharp from "sharp"
-import { SupabaseService } from "src/supabase/supabase.service"
+// import { SupabaseService } from "src/supabase/supabase.service"
 import { log } from "console"
 
 @Injectable()
 export class ImageService{
     constructor(
-        private readonly supabaseService:SupabaseService
+        // private readonly supabaseService:SupabaseService
     ) {
     
     }
@@ -28,19 +28,21 @@ export class ImageService{
             );
 
             const path = `${folderName}/${fileName}`;
+            await fs.mkdir(folderName,{recursive:true})
+            await fs.writeFile(path,compressedBuffer)
 
             log("Path")
             log(path)
-            const { error } = await this.supabaseService.client.storage
-                .from(process.env.SUPABASE_BUCKET!)
-                .upload(path, compressedBuffer, {
-                    contentType: file.mimeType,
-                    upsert: true,
-                });
+            // const { error } = await this.supabaseService.client.storage
+            //     .from(process.env.SUPABASE_BUCKET!)
+            //     .upload(path, compressedBuffer, {
+            //         contentType: file.mimeType,
+            //         upsert: true,
+            //     });
 
-            if (error) {
-                throw error;
-            }
+            // if (error) {
+            //     throw error;
+            // }
 
             return path;
         } catch (error) {
@@ -51,13 +53,17 @@ export class ImageService{
     async removeImage(path: string) {
         log("path remove")
         log(path)
-        const { error } = await this.supabaseService.client.storage
-            .from(process.env.SUPABASE_BUCKET!)
-            .remove([path]);
-
-        if (error) {
-            throw error;
+        // const { error } = await this.supabaseService.client.storage
+        //     .from(process.env.SUPABASE_BUCKET!)
+        //     .remove([path]);
+        try {
+            await fs.unlink(path)   
+        } catch (error) {
+            throw error
         }
+        // if (error) {
+        //     throw error;
+        // }
     }
     makeFileName(oriFileName:string){
         const id = randomUUID()
