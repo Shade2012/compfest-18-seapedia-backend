@@ -35,7 +35,9 @@ export class PromoService{
         return await this.promoRepository.find({
             where,
             relations:{
-              products:true,
+              products:{
+                store:true
+              },
               discount:true
             }
         })
@@ -47,7 +49,10 @@ export class PromoService{
           id,
         },
         relations:{
-          discount:true
+          discount:true,
+          products:{
+            store:true
+          },
         }
       })
     }

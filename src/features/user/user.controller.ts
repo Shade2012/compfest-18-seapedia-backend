@@ -10,7 +10,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UserRoleDecorator } from 'src/decorators/user-role.decorator';
 import { UserRole } from './entities/role_user.enum';
 import { PayloadJWT } from 'src/decorators/payload.decorator';
-import { Payload } from 'src/common/utils';
+import { AllUserRoles, Payload } from 'src/common/utils';
 import { AddRoleUserDto } from './dto/add-role-user.dto';
 import { ChangeUserRoleDto } from './dto/change-user-role.dto';
 
@@ -62,6 +62,7 @@ export class UserController {
     return instanceToPlain(this.userService.findOne(+id));
   }
 
+  @UserRoleDecorator(...AllUserRoles)
   @SuccessMessage(successMessageGlobal(SuccessMessageType.RETRIEVE,"user"))
   @Get('profile')
   getProfile(

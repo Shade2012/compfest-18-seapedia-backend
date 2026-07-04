@@ -3,7 +3,7 @@ import { UpdateOrderDto } from '../dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderHistory } from '../entities/order-history.entity';
 import { Order } from '../entities/order.entity';
-import { DataSource, EntityManager, FindOptionsWhere, Repository } from 'typeorm';
+import { Between, DataSource, EntityManager, FindOptionsWhere, MoreThan, Repository } from 'typeorm';
 import { Payload } from 'src/common/utils';
 import { UserRole } from '../../user/entities/role_user.enum';
 import { exceptionMessage, ExceptionType } from 'src/common/exception';
@@ -281,6 +281,43 @@ export class OrderService {
     )
   }
 
+  async findOverdue(){
+    const businessDay = await this.systemService.getBusinessDate()
+    const startOfToday = new Date(businessDay);
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const endOfToday = new Date(businessDay);
+    endOfToday.setHours(23, 59, 59, 999);
+    
+    return this.orderRepository.find({
+      where: {
+        status: OrderStatus.RETURN,
+        overdue: Between(startOfToday, endOfToday),
+      },
+        relations:{
+        orderAddress:true,
+        store:true,
+        job:{
+          driver:{
+            user:true
+          }
+        },
+        orderItems:{
+          product:{
+            category:true,
+            images:true,
+          },
+          types:{
+            orderProductTypeItems:{
+              item:true
+            },
+            type:true
+          }
+        },
+      }
+    });
+  }
+
   async findAll(
     payload:Payload,
     dto:FindOrderDto
@@ -357,7 +394,8 @@ export class OrderService {
       where.buyer = {
         id
       }
-    }else{
+    }
+    if(userRole == UserRole.SELLER){
       where.store = {
         seller:{
           id

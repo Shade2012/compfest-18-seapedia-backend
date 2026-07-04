@@ -27,7 +27,16 @@ export class OrderController {
     return this.orderService.findAll(payload,findOrderDto);
   }
 
-  @UserRoleDecorator(UserRole.BUYER,UserRole.SELLER)
+  @UserRoleDecorator(UserRole.ADMIN)
+  @SuccessMessage(successMessageGlobal(SuccessMessageType.RETRIEVE,'Orders Overdue'))
+  @Get('overdue')
+  findOverdue(
+  ) {
+    return this.orderService.findOverdue();
+  }
+
+
+  @UserRoleDecorator(UserRole.BUYER,UserRole.SELLER,UserRole.ADMIN)
   @SuccessMessage(successMessageGlobal(SuccessMessageType.RETRIEVE,'Order Detail'))
   @Get(':id')
   findOne(
@@ -37,7 +46,7 @@ export class OrderController {
     return this.orderService.findOne(+id,payload);
   }
 
-  @UserRoleDecorator(UserRole.BUYER,UserRole.SELLER)
+  @UserRoleDecorator(UserRole.BUYER,UserRole.SELLER,UserRole.ADMIN)
   @SuccessMessage(successMessageGlobal(SuccessMessageType.RETRIEVE,'Order History Status'))
   @Get('history/:id')
   findAllHistory(

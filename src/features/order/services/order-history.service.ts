@@ -42,7 +42,7 @@ export class OrderHistoryService {
       where.buyer = {
         id
       }
-    }else{
+    }if(userRole == UserRole.SELLER){
       where.store = {
         seller:{
           id
