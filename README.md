@@ -1,4 +1,14 @@
-# Installation & Setup
+# SeaPedia API
+
+Backend API for SeaPedia built with NestJS, TypeORM, and PostgreSQL.
+
+> **Note:** The API is already deployed and publicly accessible at:
+>
+> ```text
+> https://seapedia.zeabur.app
+> ```
+>
+> If you only want to consume the API, you can use the hosted endpoint above. Follow the installation steps below only if you want to run the API locally or contribute to the project.
 
 ## 1. Clone the Repository
 
